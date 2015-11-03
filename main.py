@@ -1,6 +1,6 @@
 from config import slack_token, db, output_file
 from getslackdata import getslackdata
-from mapchart import MapChart
+from geochart import GeoChart
 import os
 
 
@@ -13,8 +13,8 @@ def main():
 	# Store slack data to local SQLITE db
 	getslackdata(slack_token, db)
 
-	# Make output file with MapChart
-	map = MapChart(db, output_file)
+	# Make output file with GeoChart
+	map = GeoChart(db, output_file)
 	map.makeChart()
 
 	print "Done"

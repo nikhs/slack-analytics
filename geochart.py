@@ -2,8 +2,8 @@ import sqlite3
 import re
 from chart_stub import html_source
 
-class MapChart(object):
-	def __init__(self, database, outputfile="MapChart.html"):
+class GeoChart(object):
+	def __init__(self, database, outputfile="GeoChart.html"):
 		self._db = sqlite3.connect(database)
 		self._cursor =  self._db.cursor()
 		self._file = outputfile
@@ -18,7 +18,7 @@ class MapChart(object):
 		with open(self._file, "w") as f:
 			f.write(self.source)
 
-		print "Checkout %s file to see the MapChart"%self._file
+		print "Checkout %s file to see the GeoChart"%self._file
 
 	def _process_data(self):
 		try:
