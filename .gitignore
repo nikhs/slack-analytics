@@ -1,0 +1,9 @@
+#build files
+*.pyc
+*.html
+
+#config
+config.py
+
+#db
+*.db
