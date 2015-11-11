@@ -1,9 +1,15 @@
 #build files
 *.pyc
 *.html
+*.txt
 
 #config
 config.py
+config*
+
+#Static assets
+/static
+/static/*
 
 #db
 *.db
