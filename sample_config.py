@@ -9,6 +9,7 @@ credentials = {
 
 }
 
-scopes = "channels:read stars:read team:read files:read users:read"
+# Add scopes as needed
+scopes = "channels:read team:read users:read"
 
 app_secret = "Random_string_to_be_used_as_flask_app_secret"
