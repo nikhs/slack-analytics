@@ -1,6 +1,106 @@
 {% extends "layout.html" %}
+{% block scripts %}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{#	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> #}
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	{% if channels %}
+		<!-- Channel Members Bar Chart -->
+		<script type="text/javascript">
+			var channel_data = [['Channel', 'Members']]
+			{% for channel in channels %}
+				channel_data.push(["{{ channel.name }}", {{ channel.members }}])
+			{% endfor %}
+	      google.load("visualization", "1.1", {packages:["bar"]});
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable(channel_data);
+	        var options = {
+	          chart: {
+	            title: 'Channel Memberships'
+	          },
+	          bars: 'horizontal' // Required for Material Bar Charts.
+	        };
+
+	        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+	        chart.draw(data, options);
+	      }
+	    </script>
+	{% endif %}		    
+	{% if timezones %}
+		<!-- Users  Geo Chart -->
+		<script type="text/javascript">
+			var tz_data = [['Timezone', 'Members']]
+			{% for tz in timezones %}
+				var place  = "{{ tz }}".split("/")
+				place = place[place.length -1]
+				tz_data.push([place , {{ timezones[tz] }}])
+			{% endfor %}
+	      google.load("visualization", "1.1", {packages:["geochart"]});
+	      google.setOnLoadCallback(drawRegionsMap);
+
+	      function drawRegionsMap() {
+
+	        var data = google.visualization.arrayToDataTable(tz_data);
+
+	        var options = {
+	          sizeAxis: { minValue: 70, maxValue: 150 },
+	          displayMode: 'markers',
+	          colorAxis: {colors: ['#388E3C', '#d32f2f']},
+			  backgroundColor: '#607d8b',
+          	  datalessRegionColor: '#b2dfdb',
+
+	        };
+
+	        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+	        chart.draw(data, options);
+	      }
+	    </script>
+	{% endif %}		    	
+{% endblock %}
+
 {% block content %}
+	{% if team %}
+		<div class="intro section deep-orange lighten-2 z-depth-1">
+			<div class="center-align">
+			<h1 class="grey-text text-lighten-5 "><img class="circle responsive-img" src="{{ team.img }}"> {{ team.name.upper() }}</h1></div>
+			<div class="center-align"> <a class="waves-effect waves-light btn white-text" href="{{ team.link }}">Take me to my group <i class="material-icons right">send</i></a> </div>
+		</div>
+		
+	{% endif %}
+	<div class="container">
+		{% if channels %}
+		<!-- <br> -->
+			<div class="section ">
+				<h5><i class="small material-icons">insert_chart</i>Channel Population</h5>
+				 <div class="divider"></div>
+				<div class="section center-align">
+					<div id="barchart_material" style="width: 600px; height: auto; margin:0px auto"></div>
+				</div>
+			</div>
+	{#
+			{% for channel in channels %}
+				<p>{{channel.name}}, members: {{channel.members}}, Member: {{channel.is_member}} </p>
+			{% endfor %}
+	#}
+		{% endif %}
 
-
-Yeah an index page with button: <a  href=" {{ link }} "> Click me</a>
+		{% if timezones %}
+		<!-- <br> -->
+			<div class="divider"></div>
+			<div class="section">
+				<h5><i class="small material-icons">my_location</i>Member Timezones</h5>
+				 <div class="divider"></div>
+				<div class="section  ">
+					<div id="regions_div" style="width: 700px; height: 400px;margin:0px auto"></div>
+				</div>
+			</div>
+	{#
+			{% for tz in timezones %}
+				<p>{{tz}}, members: {{timezones[tz]}} </p>
+			{% endfor %}	
+	#}
+		{% endif %}	
+	</div>
 {% endblock %}

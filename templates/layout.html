@@ -3,9 +3,10 @@
   <head>
     <title>Slack analytics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    {% block scripts %} {% endblock %}
   </head>
   <body>
+{#
 <div class="error"> 
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
@@ -18,9 +19,27 @@
 		{% endwith %} 
 
 </div>
+#}
 
-    <div class="container">
+    <!-- <div class="container white"> -->
      {% block content %} {% endblock %}
-    </div>
+    <!-- </div> -->
+
+    <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  <script type="text/javascript">
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				Materialize.toast("{{ message }}", 8000);
+			{% endfor %}
+		{% endif %}
+	{% endwith %} 
+
+  </script>
+          
   </body>
 </html>

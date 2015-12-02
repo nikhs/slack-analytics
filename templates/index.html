@@ -1,6 +1,33 @@
 {% extends "layout.html" %}
+{% block scripts %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+{% endblock %}
 {% block content %}
+	<div class="intro deep-orange lighten-2 z-depth-1">
+		<div class="section">
+		 <div class="center-align"><h3 class="grey-text text-lighten-5">Slack Analytics</h3></div>
+		 <div class="center-align">
+		 	<a class="waves-effect waves-light btn white-text" href= "{{ link }}">Login to Slack <i class="material-icons right">send</i></a>
+		 	</div>
+		 </div>
+	</div>
 
-
-Yeah an index page with button: <a  href=" {{ link }} "> Click me</a>
+<div class="container">
+    <ul class="collapsible popout" >
+    <li>
+      <div class="collapsible-header">What does it do?</div>
+      <div class="collapsible-body"><p>It parses some of your slack data and visualizes them.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header">What does it need?</div>
+      <div class="collapsible-body"><p>Acces to some of your Slack data through OAUth. Mainly team-info, channels-list, users-list.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header">Is any of this data stored somewhere?</div>
+      <div class="collapsible-body"><p>Nope it's retrived and deleted.</p></div>
+    </li>
+  </ul>
+</div>
 {% endblock %}

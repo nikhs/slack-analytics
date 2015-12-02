@@ -18,7 +18,7 @@ def index():
 def authenticate():
 	try:
 		if webapp.authenticate(request):
-			flash("Logged in successfully")
+			# flash("Logged in successfully")
 			return redirect(url_for('.analytics'))
 		else:
 			flash("Login request invalid")
