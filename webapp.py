@@ -88,4 +88,4 @@ class Webapp(object):
 
 
 		
-# webapp = Webapp(Slack())
+webapp = Webapp(Slack())

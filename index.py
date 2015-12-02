@@ -1,6 +1,7 @@
 from flask import Flask, url_for, render_template, request, redirect, flash, session
-from webapp import Webapp
-from slackwrapper import Slack
+from webapp import webapp
+# from webapp import Webapp
+# from slackwrapper import Slack
 from config import app_secret
 
 app = Flask(__name__)
@@ -29,12 +30,15 @@ def authenticate():
 
 @app.route('/analytics')
 def analytics():
-	return str(webapp.get_user_slack_data())
+	try:
+		data = webapp.get_user_slack_data()
+		return render_template('analytics.html', team= data.team, timezones=data.users, channels= data.channels)
+	except Exception:
+		return "It broke... :("
 
 if __name__ == '__main__':
 	app.config['SESSION_TYPE'] = 'filesystem'
 	app.config['SECRET_KEY'] = app_secret
 
-	webapp = Webapp(Slack())
 	app.debug = True
 	app.run()
