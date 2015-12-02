@@ -16,28 +16,36 @@ def random_string(length=12):
 class DataParser(object):
 	""" handles json response data manipulation """
 	def __init__(self, ):
-		self.team_info = None
+		self.team = None
 		self.channels = None
 		self.users = None		
-		self.files = None
-		self.stars = None
+		# self.stars = None
 
 	def parse_team_info(self, raw):
-		self.team_info['name'] = raw['team']['name']
-		self.team_info['link'] = "https://%s.slack.com/"%(str(raw['team']['domain']))
-		self.team_info['img'] = raw['team']['icon']['image_34']
+		self.team = {}
+		self.team['name'] = raw['team']['name']
+		self.team['link'] = "https://%s.slack.com/"%(str(raw['team']['domain']))
+		self.team['img'] = raw['team']['icon']['image_34']
 
-	def parse_users_list(self):
-		pass
+	def parse_users_list(self, raw):
+		self.users = {}
+		for user in raw['members']:
+			timezone = user['tz']
+			self.users[timezone] = self.users.get(timezone,0) + 1
 
-	def parse_files_list(self):
-		pass
+	# TODO // Add more analytical data for stars, files etc
+	# def parse_stars_list(self):
+		# pass
 
-	def parse_stars_list(self):
-		pass
-
-	def parse_channels_list(self):
-		pass
+	def parse_channels_list(self, raw):
+		self.channels = []
+		for channel in raw['channels']:
+			data = {
+			"name":channel['name'],
+			"members":int(channel['num_members']),
+			"is_member":bool(channel['is_member'])
+			}
+			self.channels.append(data)
 
 class Webapp(object):
 	"""app controller"""
@@ -74,5 +82,10 @@ class Webapp(object):
 	def get_user_slack_data(self):
 		""" Get relevant slack data"""
 		self.parser.parse_team_info( self.slack.get_team_info() )
+		self.parser.parse_channels_list( self.slack.get_channels_list() )
+		self.parser.parse_users_list( self.slack.get_users_list() )
+		return self.parser
+
+
 		
-webapp = Webapp(Slack())
+# webapp = Webapp(Slack())
