@@ -1,5 +1,6 @@
 from flask import Flask, url_for, render_template, request, redirect, flash, session
-from webapp import webapp
+from webapp import Webapp
+from slackwrapper import Slack
 from config import app_secret
 
 app = Flask(__name__)
@@ -34,5 +35,6 @@ if __name__ == '__main__':
 	app.config['SESSION_TYPE'] = 'filesystem'
 	app.config['SECRET_KEY'] = app_secret
 
+	webapp = Webapp(Slack())
 	app.debug = True
 	app.run()

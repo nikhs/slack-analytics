@@ -1,15 +1,12 @@
 #build files
 *.pyc
-*.html
-*.txt
 
 #config
 config.py
 config*
 
 #Static assets
-/static
-/static/*
+static/css/*
+static/font/*
+static/js/*
 
-#db
-*.db

@@ -13,6 +13,32 @@ def random_string(length=12):
 	return ''.join(random.SystemRandom().choice(string.digits+string.ascii_lowercase) for _ in range(length))
 
 
+class DataParser(object):
+	""" handles json response data manipulation """
+	def __init__(self, ):
+		self.team_info = None
+		self.channels = None
+		self.users = None		
+		self.files = None
+		self.stars = None
+
+	def parse_team_info(self, raw):
+		self.team_info['name'] = raw['team']['name']
+		self.team_info['link'] = "https://%s.slack.com/"%(str(raw['team']['domain']))
+		self.team_info['img'] = raw['team']['icon']['image_34']
+
+	def parse_users_list(self):
+		pass
+
+	def parse_files_list(self):
+		pass
+
+	def parse_stars_list(self):
+		pass
+
+	def parse_channels_list(self):
+		pass
+
 class Webapp(object):
 	"""app controller"""
 	def __init__(self, slack):
@@ -21,6 +47,8 @@ class Webapp(object):
 		self.is_authenticated = False
 		self.slack.set_oauth_info(**config.credentials)
 		self.auth_url = slack.get_authorize_url( config.scopes, self.state)
+
+		self.parser = DataParser()
 
 	def get_auth_url(self):
 		return self.auth_url
@@ -45,6 +73,6 @@ class Webapp(object):
 
 	def get_user_slack_data(self):
 		""" Get relevant slack data"""
-		return self.slack.get_users_list()
+		self.parser.parse_team_info( self.slack.get_team_info() )
 		
 webapp = Webapp(Slack())

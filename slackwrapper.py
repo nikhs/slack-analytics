@@ -173,7 +173,6 @@ class RequestDeniedError(ApiException):
 
 
 class Oauth(object):
-	
 	"""  Handle Oauth requests to Slack """
 
 
@@ -181,25 +180,25 @@ class Oauth(object):
 		self.AUTHORIZE_URI = authorize_uri
 		self.OAUTH_ACCESS_URI = oauth_access_uri
 
-	""" Set basic auth info REQUORED
-	params	:	client_id		-	Client ID of your APP
-				client_secret	-	Client Secret of your APP
-				redirect URI	-	Redirect uri can be a subset of the app's redirect uri
-	"""
 	def set_oauth_info(self, client_id, client_secret, redirect_uri=None):
+		""" Set basic auth info REQUORED
+		params	:	client_id		-	Client ID of your APP
+					client_secret	-	Client Secret of your APP
+					redirect URI	-	Redirect uri can be a subset of the app's redirect uri
+		"""
 		self._client_id = client_id
 		self._client_secret = client_secret
 		self._redirect_uri = redirect_uri
 		self.token = None
 
 
+	def get_authorize_url(self, scope, state, team=None ):
 		""" Get url to redirect user to Slack Authorization Page 
 		params : scope  -  REQUIRED. Space seperated scopes( eg, 'files:read:bot search:read:user' )
 				 state  -  State to prevent CSRF. Checked automatically
 				 team   -  Restrict access to a Slack team
 		return : string 
 		"""
-	def get_authorize_url(self, scope, state, team=None ):
 		self.scope = scope
 		self.state = state
 		self._team = team
@@ -219,11 +218,11 @@ class Oauth(object):
 
 
 
+	def get_access_information(self, code):
 		""" Obtain access token from code
 		params  :  code  - REQUIRED. code provided by slack on being authorized by user
 		returns :  Response
 		"""
-	def get_access_information(self, code):
 		self.code = code
 		response = requests.get(self.OAUTH_ACCESS_URI, params={
 			'client_id' : self._client_id,
@@ -251,12 +250,12 @@ class Slack(object):
 		self.scope_methods = []
 
 
-	""" Set basic auth info REQUORED
-	params	:	client_id		-	Client ID of your APP
-				client_secret	-	Client Secret of your APP
-				redirect URI	-	Redirect uri can be a subset of the app's redirect uri
-	"""
  	def set_oauth_info(self, client_id, client_secret, redirect_uri=None):
+		""" Set basic auth info REQUIRED
+		params	:	client_id		-	Client ID of your APP
+					client_secret	-	Client Secret of your APP
+					redirect URI	-	Redirect uri can be a subset of the app's redirect uri
+		"""
  		self.oauth.set_oauth_info(client_id, client_secret, redirect_uri)
 
  	def get_authorize_url(self, scope, state, team=None):
